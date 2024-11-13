@@ -33,7 +33,8 @@ namespace Calculate.Commands
                 var number = _results[index];
                 _logger.Log("Using previous result: " + number);
                 _results.Add(number);
-                _storage.Save(_results);
+                _storage.Save(number);
+                
             }
             else
             {

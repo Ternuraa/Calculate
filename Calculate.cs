@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using Calculate.Loggers;
 using Calculate.Commands;
 using Calculate.Common;
+using Calculate.Storage;
 
 namespace Calculate
 {
@@ -15,11 +16,11 @@ namespace Calculate
         {
             var config = new GlobalConfigs(new ConsoleLogger(), "saves.json");
             var logger = config.GetLogger();
-            var storage = new FileStorage(logger, config.GetStoragePath());
+            var storage = new DatabaseStorage();
             var performer = new Performer(logger, new GenericMath());
             var display = new Display(logger);
 
-            var results = await storage.Load();
+            var results = storage.Load();
 
             var commands = new List<ICommand>
             {
@@ -27,7 +28,7 @@ namespace Calculate
                 new HistoryCommand(display, results),
                 new NumberCommand(storage, logger, results),
                 new HistoryIndexCommand(storage, logger, results),
-                new MathOperationCommand(performer, logger, results)
+                new MathOperationCommand(performer, logger, results, storage)
             };
 
             var controller = new Controller(commands, logger, new ConsoleUserInput());

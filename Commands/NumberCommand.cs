@@ -28,7 +28,7 @@ namespace Calculate.Commands
             if (double.TryParse(input, out double number))
             {
                 _results.Add(number);
-                _storage.Save(_results);
+                _storage.Save(number);
                 _logger.Log($"[# {_results.Count}] = {number}");
             }
         }

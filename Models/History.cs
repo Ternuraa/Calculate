@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Calculate.Storage
+namespace Calculate.Models
 {
-    public interface IStorage
+    public class History
     {
-        void Save(double value);
-        List<double> Load();
+        public int Id { get; set; }
+
+        public double Value { get; set; }
     }
 }

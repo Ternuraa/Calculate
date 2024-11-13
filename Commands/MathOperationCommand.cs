@@ -1,4 +1,5 @@
 ﻿using Calculate.Loggers;
+using Calculate.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,16 @@ namespace Calculate.Commands
         private readonly Performer _performer;
         private readonly ILogger _logger;
         private readonly List<double> _results;
+        private readonly IStorage _storage;
         private Performer performer;
-        private ILogger logger;
         private Task<List<double>> results;
 
-        public MathOperationCommand(Performer performer, ILogger logger, List<double> results)
+        public MathOperationCommand(Performer performer, ILogger logger, List<double> results, IStorage storage)
         {
             _performer = performer;
             _logger = logger;
             _results = results;
+            _storage = storage;
         }
 
 
@@ -49,6 +51,7 @@ namespace Calculate.Commands
                 }
             }
             _results.Add(currentResult);
+            _storage.Save(currentResult);
             _logger.Log($"[# {_results.Count}] = {currentResult}");
         }
     }
